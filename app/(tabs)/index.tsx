@@ -53,16 +53,14 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   button: {
-    backgroundColor: PRIMARY,
     paddingVertical: 10,
     paddingHorizontal: 16,
-    borderRadius: 8,
   },
   buttonPressed: {
-    backgroundColor: PRIMARY_DARK,
+    opacity: 0.7,
   },
   buttonText: {
-    color: '#ffffff',
+    color: PRIMARY,
     fontSize: 16,
     fontWeight: 'bold',
   },
