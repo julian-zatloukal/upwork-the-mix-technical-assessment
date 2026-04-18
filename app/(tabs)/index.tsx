@@ -1,65 +1,33 @@
-import React from 'react';
-import {
-  FlatList,
-  ImageBackground,
-  Pressable,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import React, { useRef } from 'react';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
+import { Authenticator } from '@aws-amplify/ui-react-native';
 
-import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react-native';
-import { PRIMARY } from '../../constants/theme';
+import { VENUES } from '../../src/data/venues';
+import type { Venue } from '../../src/types/venue';
+import { SignOutButton } from '../../components/auth/SignOutButton';
+import { VenueListItem } from '../../components/venue/VenueListItem';
 
-const VENUES = [
-  {
-    id: 'venue_123',
-    name: 'Cozy Bar',
-    subtitle: 'Intimate ambiance & craft cocktails',
-    address: '123 Main St, San Antonio',
-    category: 'Bar',
-    description: 'A hidden gem featuring dim lighting, plush seating, and an expansive menu of artisanal cocktails perfect for unwinding.',
-    image: require('../../assets/images/cozy_bar.jpg'),
-  },
-];
-
-const SignOutButton = () => {
-  const { signOut } = useAuthenticator();
-
-  return (
-    <Pressable
-      onPress={signOut}
-      style={({ pressed }) => [
-        styles.button,
-        pressed && styles.buttonPressed,
-      ]}
-    >
-      <Text style={styles.buttonText}>Sign Out</Text>
-    </Pressable>
-  );
-};
+/** Minimum time (ms) between successive navigation pushes. */
+const NAV_DEBOUNCE_MS = 800;
 
 export default function HomeScreen() {
   const router = useRouter();
+  const isNavigating = useRef(false);
 
-  const renderItem = ({ item }: { item: any }) => (
-    <Pressable
-      style={styles.itemContainer}
-      onPress={() => router.push(`/venue/${item.id}`)}
-    >
-      <ImageBackground
-        source={item.image}
-        style={styles.imageBackground}
-        imageStyle={styles.imageStyle}
-      >
-        <View style={styles.overlay}>
-          <Text style={styles.itemName}>{item.name}</Text>
-          <Text style={styles.itemSubtitle}>{item.subtitle}</Text>
-        </View>
-      </ImageBackground>
-    </Pressable>
+  const handleVenuePress = (id: string) => {
+    if (isNavigating.current) return;
+    isNavigating.current = true;
+    router.push(`/venue/${id}`);
+    // Reset after the debounce window so back-navigation re-enables tapping.
+    setTimeout(() => {
+      isNavigating.current = false;
+    }, NAV_DEBOUNCE_MS);
+  };
+
+  const renderItem = ({ item }: { item: Venue }) => (
+    <VenueListItem venue={item} onPress={handleVenuePress} />
   );
 
   return (
@@ -98,52 +66,8 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: 'bold',
   },
-  button: {
-    paddingVertical: 10,
-    paddingHorizontal: 12,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    borderRadius: 8,
-  },
-  buttonPressed: {
-    opacity: 0.7,
-  },
-  buttonText: {
-    color: PRIMARY,
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
   listContent: {
     paddingHorizontal: 16,
     paddingBottom: 24,
-  },
-  itemContainer: {
-    height: 250,
-    marginBottom: 20,
-    borderRadius: 16,
-    overflow: 'hidden',
-  },
-  imageBackground: {
-    width: '100%',
-    height: '100%',
-    justifyContent: 'flex-end',
-  },
-  imageStyle: {
-    borderRadius: 16,
-  },
-  overlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
-    justifyContent: 'flex-end',
-    padding: 16,
-  },
-  itemName: {
-    color: '#ffffff',
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 4,
-  },
-  itemSubtitle: {
-    color: '#dddddd',
-    fontSize: 16,
   },
 });

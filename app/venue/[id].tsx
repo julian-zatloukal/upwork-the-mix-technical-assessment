@@ -1,117 +1,47 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Pressable, ScrollView, ImageBackground, ActivityIndicator } from 'react-native';
+import React from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  ScrollView,
+  ImageBackground,
+  ActivityIndicator,
+} from 'react-native';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
-import { PRIMARY } from '../../constants/theme';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { generateClient } from 'aws-amplify/data';
-import { getCurrentUser } from 'aws-amplify/auth';
-import type { Schema } from '../../amplify/data/resource';
 
-const client = generateClient<Schema>();
+import { PRIMARY } from '../../constants/theme';
+import { getVenueById } from '../../src/data/venues';
+import { useCheckIn } from '../../src/hooks/useCheckIn';
 
 export default function VenueDetailScreen() {
-  const { id } = useLocalSearchParams();
+  const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
-  const [isCheckingIn, setIsCheckingIn] = useState(false);
-  const [isCheckedIn, setIsCheckedIn] = useState(false);
-  const [currentCheckInId, setCurrentCheckInId] = useState<string | null>(null);
-  const [isLoadingStatus, setIsLoadingStatus] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const venueId = typeof id === 'string' ? id : null;
+  const venue = venueId ? getVenueById(venueId) : undefined;
 
-  useEffect(() => {
-    const fetchCheckInStatus = async () => {
-      if (!id || typeof id !== 'string') {
-        setIsLoadingStatus(false);
-        return;
-      }
-      
-      try {
-        const { userId } = await getCurrentUser();
-        
-        const { data: checkIns } = await client.models.CheckIn.list({
-          filter: {
-            and: [
-              { userId: { eq: userId } },
-              { venueId: { eq: id } }
-            ]
-          }
-        });
-        
-        if (checkIns && checkIns.length > 0) {
-          setIsCheckedIn(true);
-          setCurrentCheckInId(checkIns[0].id);
-        }
-      } catch (err) {
-        console.error('Failed to fetch check-in status:', err);
-      } finally {
-        setIsLoadingStatus(false);
-      }
-    };
-    
-    fetchCheckInStatus();
-  }, [id]);
+  const { isCheckingIn, isCheckedIn, isLoadingStatus, error, toggleCheckIn } =
+    useCheckIn(venueId);
 
-  const handleToggleCheckIn = async () => {
-    if (!id || typeof id !== 'string') return;
-
-    setIsCheckingIn(true);
-    setError(null);
-
-    try {
-      if (isCheckedIn && currentCheckInId) {
-        // Development purpose: uncheck in
-        const { errors } = await client.models.CheckIn.delete({
-          id: currentCheckInId,
-        });
-
-        if (errors) {
-          throw new Error(errors[0].message);
-        }
-
-        setIsCheckedIn(false);
-        setCurrentCheckInId(null);
-      } else {
-        // Regular check in
-        const { userId } = await getCurrentUser();
-        
-        const { errors, data } = await client.models.CheckIn.create({
-          userId,
-          venueId: id,
-          timestamp: new Date().toISOString(),
-        });
-        
-        if (errors) {
-          throw new Error(errors[0].message);
-        }
-        
-        if (data) {
-          setCurrentCheckInId(data.id);
-        }
-        setIsCheckedIn(true);
-      }
-    } catch (err: any) {
-      console.error('Error toggling check-in status:', err);
-      setError(err.message || 'Failed to update check-in status. Please try again.');
-    } finally {
-      setIsCheckingIn(false);
-    }
-  };
-
-  // Hardcoded for now based on the requested detail
-  const venueDetail = {
-    name: 'Cozy Bar',
-    subtitle: 'Intimate ambiance & craft cocktails',
-    description: 'A hidden gem featuring dim lighting, plush seating, and an expansive menu of artisanal cocktails perfect for unwinding.',
-    image: require('../../assets/images/cozy_bar.jpg'),
-  };
+  if (!venue) {
+    return (
+      <View style={styles.container}>
+        <Stack.Screen options={{ headerShown: false }} />
+        <View style={styles.centeredMessage}>
+          <Text style={styles.errorText}>Venue not found.</Text>
+        </View>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
       <Stack.Screen options={{ headerShown: false }} />
       <ScrollView bounces={false} contentContainerStyle={styles.scrollContent}>
-        <ImageBackground source={venueDetail.image} style={styles.coverImage}>
+        <ImageBackground source={venue.image} style={styles.coverImage}>
           <View style={[styles.headerOverlay, { paddingTop: Math.max(insets.top, 16) }]}>
             <Pressable onPress={() => router.back()} style={styles.backButton}>
               <Text style={styles.backButtonText}>← Back</Text>
@@ -120,21 +50,22 @@ export default function VenueDetailScreen() {
         </ImageBackground>
 
         <View style={styles.content}>
-          <Text style={styles.title}>{venueDetail.name}</Text>
-          <Text style={styles.subtitle}>{venueDetail.subtitle}</Text>
-          <Text style={styles.description}>{venueDetail.description}</Text>
-          
+          <Text style={styles.title}>{venue.name}</Text>
+          <Text style={styles.subtitle}>{venue.subtitle}</Text>
+          <Text style={styles.description}>{venue.description}</Text>
+
           {error && <Text style={styles.errorText}>{error}</Text>}
+
           <Pressable
             style={({ pressed }) => [
               styles.checkInButton,
               pressed && !isLoadingStatus && styles.checkInButtonPressed,
               (isCheckingIn || isLoadingStatus) && styles.checkInButtonDisabled,
             ]}
-            onPress={handleToggleCheckIn}
+            onPress={toggleCheckIn}
             disabled={isCheckingIn || isLoadingStatus}
           >
-            {(isCheckingIn || isLoadingStatus) ? (
+            {isCheckingIn || isLoadingStatus ? (
               <ActivityIndicator color="#000" />
             ) : (
               <Text style={styles.checkInButtonText}>
@@ -152,6 +83,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000000',
+  },
+  centeredMessage: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   scrollContent: {
     paddingBottom: 40,

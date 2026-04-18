@@ -49,7 +49,7 @@ function withLightness(hex: string, targetLightness: number): string {
 
 // ─── Primary brand color ────────────────────────────────────────────────────
 // ✏️  This is the ONLY value you need to change — everything else is derived.
-export const PRIMARY = '#fcc419';
+export const PRIMARY = '#fab005';
 
 const [, , PRIMARY_L] = hexToHsl(PRIMARY);
 
