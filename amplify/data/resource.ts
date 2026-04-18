@@ -7,6 +7,13 @@ const schema = a.schema({
       isDone: a.boolean(),
     })
     .authorization((allow) => [allow.owner()]),
+  CheckIn: a
+    .model({
+      userId: a.string().required(),
+      venueId: a.string().required(),
+      timestamp: a.datetime().required(),
+    })
+    .authorization((allow) => [allow.owner()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;

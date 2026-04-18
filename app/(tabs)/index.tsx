@@ -44,7 +44,7 @@ const SignOutButton = () => {
 export default function HomeScreen() {
   const router = useRouter();
 
-  const renderItem = ({ item }) => (
+  const renderItem = ({ item }: { item: any }) => (
     <Pressable
       style={styles.itemContainer}
       onPress={() => router.push(`/venue/${item.id}`)}
