@@ -29,17 +29,15 @@ const SignOutButton = () => {
   const { signOut } = useAuthenticator();
 
   return (
-    <View style={styles.signOutButton}>
-      <Pressable
-        onPress={signOut}
-        style={({ pressed }) => [
-          styles.button,
-          pressed && styles.buttonPressed,
-        ]}
-      >
-        <Text style={styles.buttonText}>Sign Out</Text>
-      </Pressable>
-    </View>
+    <Pressable
+      onPress={signOut}
+      style={({ pressed }) => [
+        styles.button,
+        pressed && styles.buttonPressed,
+      ]}
+    >
+      <Text style={styles.buttonText}>Sign Out</Text>
+    </Pressable>
   );
 };
 
@@ -67,7 +65,10 @@ export default function HomeScreen() {
   return (
     <Authenticator>
       <SafeAreaView style={styles.container}>
-        <SignOutButton />
+        <View style={styles.navBar}>
+          <Text style={styles.navTitle}>My reservations</Text>
+          <SignOutButton />
+        </View>
         <FlatList
           data={VENUES}
           keyExtractor={(item) => item.id}
@@ -84,14 +85,24 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000000',
   },
-  signOutButton: {
-    alignSelf: 'flex-end',
-    marginTop: 8,
-    marginRight: 8,
+  navBar: {
+    height: 80,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingBottom: 8,
+  },
+  navTitle: {
+    color: '#ffffff',
+    fontSize: 28,
+    fontWeight: 'bold',
   },
   button: {
     paddingVertical: 10,
-    paddingHorizontal: 16,
+    paddingHorizontal: 12,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: 8,
   },
   buttonPressed: {
     opacity: 0.7,
