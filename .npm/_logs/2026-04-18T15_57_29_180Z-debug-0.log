@@ -1,0 +1,248 @@
+0 verbose cli /Users/julian/.nvm/versions/node/v24.15.0/bin/node /Users/julian/.nvm/versions/node/v24.15.0/bin/npm
+1 info using npm@11.12.1
+2 info using node@v24.15.0
+3 silly config load:file:/Users/julian/.nvm/versions/node/v24.15.0/lib/node_modules/npm/npmrc
+4 silly config load:file:/Volumes/Portable/lb/upwork/upwork-the-mix-technical-assessment/.npmrc
+5 silly config load:file:/Users/julian/.npmrc
+6 silly config load:file:/Users/julian/.nvm/versions/node/v24.15.0/etc/npmrc
+7 verbose title npm ci
+8 verbose argv "ci" "--cache" ".npm" "--prefer-offline" "--legacy-peer-deps"
+9 verbose logfile logs-max:10 dir:/Volumes/Portable/lb/upwork/upwork-the-mix-technical-assessment/.npm/_logs/2026-04-18T15_57_29_180Z-
+10 verbose logfile /Volumes/Portable/lb/upwork/upwork-the-mix-technical-assessment/.npm/_logs/2026-04-18T15_57_29_180Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:4496293888 maxSize:1124073472 maxEntrySize:562036736
+13 silly packumentCache heap:4496293888 maxSize:1124073472 maxEntrySize:562036736
+14 silly idealTree buildDeps
+15 silly fetch manifest fast-xml-parser@4.4.1
+16 silly packumentCache full:https://registry.npmjs.org/fast-xml-parser cache-miss
+17 http fetch GET 200 https://registry.npmjs.org/npm 1165ms
+18 http fetch GET 200 https://registry.npmjs.org/fast-xml-parser 77ms (cache miss)
+19 silly packumentCache full:https://registry.npmjs.org/fast-xml-parser set size:undefined disposed:false
+20 silly placeDep node_modules/@aws-amplify/data-construct/node_modules/@aws-sdk/core fast-xml-parser@4.4.1 OK for: @aws-sdk/core@3.635.0 want: 4.4.1
+21 silly placeDep node_modules/@aws-amplify/graphql-api-construct/node_modules/@aws-sdk/core fast-xml-parser@4.4.1 OK for: @aws-sdk/core@3.635.0 want: 4.4.1
+22 silly placeDep node_modules/@aws-amplify/data-construct/node_modules/@aws-amplify/ai-constructs fast-xml-parser@4.4.1 OK for: @aws-sdk/core@3.622.0 want: 4.4.1
+23 silly fetch manifest fast-xml-parser@5.4.1
+24 silly packumentCache full:https://registry.npmjs.org/fast-xml-parser cache-miss
+25 http cache https://registry.npmjs.org/fast-xml-parser 3ms (cache hit)
+26 silly packumentCache full:https://registry.npmjs.org/fast-xml-parser set size:586637 disposed:false
+27 silly placeDep node_modules/@aws-amplify/data-construct/node_modules/@aws-amplify/platform-core fast-xml-parser@5.4.1 OK for: @aws-sdk/xml-builder@3.972.11 want: 5.4.1
+28 silly fetch manifest strnum@^2.1.2
+29 silly packumentCache full:https://registry.npmjs.org/strnum cache-miss
+30 http fetch GET 200 https://registry.npmjs.org/strnum 39ms (cache miss)
+31 silly packumentCache full:https://registry.npmjs.org/strnum set size:undefined disposed:false
+32 silly placeDep node_modules/@aws-amplify/data-construct/node_modules/@aws-amplify/platform-core strnum@2.2.3 OK for: fast-xml-parser@5.4.1 want: ^2.1.2
+33 silly placeDep node_modules/@aws-amplify/data-construct/node_modules/@aws-sdk/client-bedrock-runtime fast-xml-parser@4.4.1 OK for: @aws-sdk/core@3.826.0 want: 4.4.1
+34 silly placeDep node_modules/@aws-amplify/data-construct/node_modules/@aws-sdk/client-sts fast-xml-parser@4.4.1 OK for: @aws-sdk/core@3.775.0 want: 4.4.1
+35 silly fetch manifest fast-xml-parser@5.2.5
+36 silly packumentCache full:https://registry.npmjs.org/fast-xml-parser cache-hit
+37 silly placeDep node_modules/@aws-amplify/data-construct/node_modules/@aws-sdk/credential-provider-login fast-xml-parser@5.2.5 OK for: @aws-sdk/xml-builder@3.953.0 want: 5.2.5
+38 silly fetch manifest strnum@^2.1.0
+39 silly packumentCache full:https://registry.npmjs.org/strnum cache-miss
+40 http cache https://registry.npmjs.org/strnum 1ms (cache hit)
+41 silly packumentCache full:https://registry.npmjs.org/strnum set size:41343 disposed:false
+42 silly placeDep node_modules/@aws-amplify/data-construct/node_modules/@aws-sdk/credential-provider-login strnum@2.2.3 OK for: fast-xml-parser@5.2.5 want: ^2.1.0
+43 silly placeDep node_modules/@aws-amplify/data-construct/node_modules/@aws-sdk/nested-clients fast-xml-parser@4.4.1 OK for: @aws-sdk/core@3.775.0 want: 4.4.1
+44 silly placeDep node_modules/@aws-amplify/graphql-api-construct/node_modules/@aws-amplify/ai-constructs fast-xml-parser@4.4.1 OK for: @aws-sdk/core@3.622.0 want: 4.4.1
+45 silly placeDep node_modules/@aws-amplify/graphql-api-construct/node_modules/@aws-amplify/platform-core fast-xml-parser@5.4.1 OK for: @aws-sdk/xml-builder@3.972.11 want: 5.4.1
+46 silly placeDep node_modules/@aws-amplify/graphql-api-construct/node_modules/@aws-amplify/platform-core strnum@2.2.3 OK for: fast-xml-parser@5.4.1 want: ^2.1.2
+47 silly placeDep node_modules/@aws-amplify/graphql-api-construct/node_modules/@aws-sdk/client-bedrock-runtime fast-xml-parser@4.4.1 OK for: @aws-sdk/core@3.826.0 want: 4.4.1
+48 silly placeDep node_modules/@aws-amplify/graphql-api-construct/node_modules/@aws-sdk/client-sts fast-xml-parser@4.4.1 OK for: @aws-sdk/core@3.775.0 want: 4.4.1
+49 silly placeDep node_modules/@aws-amplify/graphql-api-construct/node_modules/@aws-sdk/credential-provider-login fast-xml-parser@5.2.5 OK for: @aws-sdk/xml-builder@3.953.0 want: 5.2.5
+50 silly placeDep node_modules/@aws-amplify/graphql-api-construct/node_modules/@aws-sdk/credential-provider-login strnum@2.2.3 OK for: fast-xml-parser@5.2.5 want: ^2.1.0
+51 silly placeDep node_modules/@aws-amplify/graphql-api-construct/node_modules/@aws-sdk/nested-clients fast-xml-parser@4.4.1 OK for: @aws-sdk/core@3.775.0 want: 4.4.1
+52 verbose stack Error: 
+52 verbose stack `npm ci` can only install packages when your package.json and package-lock.json or npm-shrinkwrap.json are in sync. Please update your lock file with `npm install` before continuing.
+52 verbose stack
+52 verbose stack Missing: fast-xml-parser@4.4.1 from lock file
+52 verbose stack Missing: fast-xml-parser@4.4.1 from lock file
+52 verbose stack Missing: fast-xml-parser@4.4.1 from lock file
+52 verbose stack Missing: fast-xml-parser@5.4.1 from lock file
+52 verbose stack Missing: strnum@2.2.3 from lock file
+52 verbose stack Missing: fast-xml-parser@4.4.1 from lock file
+52 verbose stack Missing: fast-xml-parser@4.4.1 from lock file
+52 verbose stack Missing: fast-xml-parser@5.2.5 from lock file
+52 verbose stack Missing: strnum@2.2.3 from lock file
+52 verbose stack Missing: fast-xml-parser@4.4.1 from lock file
+52 verbose stack Missing: fast-xml-parser@4.4.1 from lock file
+52 verbose stack Missing: fast-xml-parser@5.4.1 from lock file
+52 verbose stack Missing: strnum@2.2.3 from lock file
+52 verbose stack Missing: fast-xml-parser@4.4.1 from lock file
+52 verbose stack Missing: fast-xml-parser@4.4.1 from lock file
+52 verbose stack Missing: fast-xml-parser@5.2.5 from lock file
+52 verbose stack Missing: strnum@2.2.3 from lock file
+52 verbose stack Missing: fast-xml-parser@4.4.1 from lock file
+52 verbose stack
+52 verbose stack Clean install a project
+52 verbose stack
+52 verbose stack Usage:
+52 verbose stack npm ci
+52 verbose stack
+52 verbose stack Options:
+52 verbose stack [--install-strategy <hoisted|nested|shallow|linked>] [--legacy-bundling]
+52 verbose stack [--global-style] [--omit <dev|optional|peer> [--omit <dev|optional|peer> ...]]
+52 verbose stack [--include <prod|dev|optional|peer> [--include <prod|dev|optional|peer> ...]]
+52 verbose stack [--strict-peer-deps] [--foreground-scripts] [--ignore-scripts]
+52 verbose stack [--allow-git <all|none|root>] [--no-audit] [--no-bin-links] [--no-fund]
+52 verbose stack [--dry-run]
+52 verbose stack [-w|--workspace <workspace-name> [-w|--workspace <workspace-name> ...]]
+52 verbose stack [--workspaces] [--include-workspace-root] [--install-links]
+52 verbose stack
+52 verbose stack   --install-strategy
+52 verbose stack     Sets the strategy for installing packages in node_modules.
+52 verbose stack
+52 verbose stack   --legacy-bundling
+52 verbose stack     Instead of hoisting package installs in `node_modules`, install packages
+52 verbose stack
+52 verbose stack   --global-style
+52 verbose stack     Only install direct dependencies in the top level `node_modules`,
+52 verbose stack
+52 verbose stack   --omit
+52 verbose stack     Dependency types to omit from the installation tree on disk.
+52 verbose stack
+52 verbose stack   --include
+52 verbose stack     Option that allows for defining which types of dependencies to install.
+52 verbose stack
+52 verbose stack   --strict-peer-deps
+52 verbose stack     If set to `true`, and `--legacy-peer-deps` is not set, then _any_
+52 verbose stack
+52 verbose stack   --foreground-scripts
+52 verbose stack     Run all build scripts (ie, `preinstall`, `install`, and
+52 verbose stack
+52 verbose stack   --ignore-scripts
+52 verbose stack     If true, npm does not run scripts specified in package.json files.
+52 verbose stack
+52 verbose stack   --allow-git
+52 verbose stack     Limits the ability for npm to fetch dependencies from git references.
+52 verbose stack
+52 verbose stack   --audit
+52 verbose stack     When "true" submit audit reports alongside the current npm command to the
+52 verbose stack
+52 verbose stack   --bin-links
+52 verbose stack     Tells npm to create symlinks (or `.cmd` shims on Windows) for package
+52 verbose stack
+52 verbose stack   --fund
+52 verbose stack     When "true" displays the message at the end of each `npm install`
+52 verbose stack
+52 verbose stack   --dry-run
+52 verbose stack     Indicates that you don't want npm to make any changes and that it should
+52 verbose stack
+52 verbose stack   -w|--workspace
+52 verbose stack     Enable running a command in the context of the configured workspaces of the
+52 verbose stack
+52 verbose stack   --workspaces
+52 verbose stack     Set to true to run the command in the context of **all** configured
+52 verbose stack
+52 verbose stack   --include-workspace-root
+52 verbose stack     Include the workspace root when workspaces are enabled for a command.
+52 verbose stack
+52 verbose stack   --install-links
+52 verbose stack     When set file: protocol dependencies will be packed and installed as
+52 verbose stack
+52 verbose stack
+52 verbose stack aliases: clean-install, ic, install-clean, isntall-clean
+52 verbose stack
+52 verbose stack Run "npm help ci" for more info
+52 verbose stack     at CI.usageError (/Users/julian/.nvm/versions/node/v24.15.0/lib/node_modules/npm/lib/base-cmd.js:177:26)
+52 verbose stack     at CI.exec (/Users/julian/.nvm/versions/node/v24.15.0/lib/node_modules/npm/lib/commands/ci.js:73:18)
+52 verbose stack     at async Npm.exec (/Users/julian/.nvm/versions/node/v24.15.0/lib/node_modules/npm/lib/npm.js:193:9)
+52 verbose stack     at async module.exports (/Users/julian/.nvm/versions/node/v24.15.0/lib/node_modules/npm/lib/cli/entry.js:67:5)
+53 error code EUSAGE
+54 error
+54 error `npm ci` can only install packages when your package.json and package-lock.json or npm-shrinkwrap.json are in sync. Please update your lock file with `npm install` before continuing.
+54 error
+54 error Missing: fast-xml-parser@4.4.1 from lock file
+54 error Missing: fast-xml-parser@4.4.1 from lock file
+54 error Missing: fast-xml-parser@4.4.1 from lock file
+54 error Missing: fast-xml-parser@5.4.1 from lock file
+54 error Missing: strnum@2.2.3 from lock file
+54 error Missing: fast-xml-parser@4.4.1 from lock file
+54 error Missing: fast-xml-parser@4.4.1 from lock file
+54 error Missing: fast-xml-parser@5.2.5 from lock file
+54 error Missing: strnum@2.2.3 from lock file
+54 error Missing: fast-xml-parser@4.4.1 from lock file
+54 error Missing: fast-xml-parser@4.4.1 from lock file
+54 error Missing: fast-xml-parser@5.4.1 from lock file
+54 error Missing: strnum@2.2.3 from lock file
+54 error Missing: fast-xml-parser@4.4.1 from lock file
+54 error Missing: fast-xml-parser@4.4.1 from lock file
+54 error Missing: fast-xml-parser@5.2.5 from lock file
+54 error Missing: strnum@2.2.3 from lock file
+54 error Missing: fast-xml-parser@4.4.1 from lock file
+54 error
+54 error Clean install a project
+54 error
+54 error Usage:
+54 error npm ci
+54 error
+54 error Options:
+54 error [--install-strategy <hoisted|nested|shallow|linked>] [--legacy-bundling]
+54 error [--global-style] [--omit <dev|optional|peer> [--omit <dev|optional|peer> ...]]
+54 error [--include <prod|dev|optional|peer> [--include <prod|dev|optional|peer> ...]]
+54 error [--strict-peer-deps] [--foreground-scripts] [--ignore-scripts]
+54 error [--allow-git <all|none|root>] [--no-audit] [--no-bin-links] [--no-fund]
+54 error [--dry-run]
+54 error [-w|--workspace <workspace-name> [-w|--workspace <workspace-name> ...]]
+54 error [--workspaces] [--include-workspace-root] [--install-links]
+54 error
+54 error   --install-strategy
+54 error     Sets the strategy for installing packages in node_modules.
+54 error
+54 error   --legacy-bundling
+54 error     Instead of hoisting package installs in `node_modules`, install packages
+54 error
+54 error   --global-style
+54 error     Only install direct dependencies in the top level `node_modules`,
+54 error
+54 error   --omit
+54 error     Dependency types to omit from the installation tree on disk.
+54 error
+54 error   --include
+54 error     Option that allows for defining which types of dependencies to install.
+54 error
+54 error   --strict-peer-deps
+54 error     If set to `true`, and `--legacy-peer-deps` is not set, then _any_
+54 error
+54 error   --foreground-scripts
+54 error     Run all build scripts (ie, `preinstall`, `install`, and
+54 error
+54 error   --ignore-scripts
+54 error     If true, npm does not run scripts specified in package.json files.
+54 error
+54 error   --allow-git
+54 error     Limits the ability for npm to fetch dependencies from git references.
+54 error
+54 error   --audit
+54 error     When "true" submit audit reports alongside the current npm command to the
+54 error
+54 error   --bin-links
+54 error     Tells npm to create symlinks (or `.cmd` shims on Windows) for package
+54 error
+54 error   --fund
+54 error     When "true" displays the message at the end of each `npm install`
+54 error
+54 error   --dry-run
+54 error     Indicates that you don't want npm to make any changes and that it should
+54 error
+54 error   -w|--workspace
+54 error     Enable running a command in the context of the configured workspaces of the
+54 error
+54 error   --workspaces
+54 error     Set to true to run the command in the context of **all** configured
+54 error
+54 error   --include-workspace-root
+54 error     Include the workspace root when workspaces are enabled for a command.
+54 error
+54 error   --install-links
+54 error     When set file: protocol dependencies will be packed and installed as
+54 error
+54 error
+54 error aliases: clean-install, ic, install-clean, isntall-clean
+54 error
+54 error Run "npm help ci" for more info
+55 verbose cwd /Volumes/Portable/lb/upwork/upwork-the-mix-technical-assessment
+56 verbose os Darwin 25.4.0
+57 verbose node v24.15.0
+58 verbose npm  v11.12.1
+59 verbose exit 1
+60 verbose code 1
+61 error A complete log of this run can be found in: /Volumes/Portable/lb/upwork/upwork-the-mix-technical-assessment/.npm/_logs/2026-04-18T15_57_29_180Z-debug-0.log
