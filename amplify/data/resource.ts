@@ -13,6 +13,7 @@ const schema = a.schema({
       venueId: a.string().required(),
       timestamp: a.datetime().required(),
     })
+    .identifier(['userId', 'venueId'])
     .authorization((allow) => [allow.owner()]),
 });
 

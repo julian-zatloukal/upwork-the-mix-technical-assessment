@@ -9,38 +9,36 @@ const client = generateClient<Schema>();
  */
 export interface CheckInStatus {
   isCheckedIn: boolean;
-  checkInId: string | null;
 }
 
 /**
  * Fetches the current user's check-in status for the given venue.
- * Returns `{ isCheckedIn: false, checkInId: null }` if the user has not
- * checked in, or `{ isCheckedIn: true, checkInId }` when they have.
+ * Returns `{ isCheckedIn: false }` if the user has not
+ * checked in, or `{ isCheckedIn: true }` when they have.
  *
  * @throws When the Amplify query fails.
  */
 export async function fetchCheckInStatus(venueId: string): Promise<CheckInStatus> {
   const { userId } = await getCurrentUser();
 
-  const { data: checkIns } = await client.models.CheckIn.list({
-    filter: {
-      and: [{ userId: { eq: userId } }, { venueId: { eq: venueId } }],
-    },
-  });
+  const { data: checkIn, errors } = await client.models.CheckIn.get({ userId, venueId });
 
-  if (checkIns && checkIns.length > 0) {
-    return { isCheckedIn: true, checkInId: checkIns[0].id };
+  if (errors) {
+    console.error('Error fetching check-in status:', errors);
   }
-  return { isCheckedIn: false, checkInId: null };
+
+  if (checkIn) {
+    return { isCheckedIn: true };
+  }
+  return { isCheckedIn: false };
 }
 
 /**
  * Creates a new check-in record for the current user at the given venue.
  *
- * @returns The id of the newly created check-in.
  * @throws When the Amplify mutation fails.
  */
-export async function createCheckIn(venueId: string): Promise<string> {
+export async function createCheckIn(venueId: string): Promise<void> {
   const { userId } = await getCurrentUser();
 
   const { errors, data } = await client.models.CheckIn.create({
@@ -49,17 +47,24 @@ export async function createCheckIn(venueId: string): Promise<string> {
     timestamp: new Date().toISOString(),
   });
 
-  if (errors) throw new Error(errors[0].message);
+  if (errors) {
+    const errorMsg = errors[0].message;
+    // Handle duplicate check-ins which will fail the unique constraint
+    if (errorMsg.includes('conditional') || errorMsg.includes('already exists')) {
+      throw new Error('You have already checked in to this venue.');
+    }
+    throw new Error(errorMsg);
+  }
   if (!data) throw new Error('No data returned from CheckIn.create');
-  return data.id;
 }
 
 /**
- * Deletes an existing check-in record by its id.
+ * Deletes an existing check-in record by venueId.
  *
  * @throws When the Amplify mutation fails.
  */
-export async function deleteCheckIn(checkInId: string): Promise<void> {
-  const { errors } = await client.models.CheckIn.delete({ id: checkInId });
+export async function deleteCheckIn(venueId: string): Promise<void> {
+  const { userId } = await getCurrentUser();
+  const { errors } = await client.models.CheckIn.delete({ userId, venueId });
   if (errors) throw new Error(errors[0].message);
 }

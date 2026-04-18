@@ -31,7 +31,6 @@ interface UseCheckInState {
 export function useCheckIn(venueId: string | null | undefined): UseCheckInState {
   const [isCheckingIn, setIsCheckingIn] = useState(false);
   const [isCheckedIn, setIsCheckedIn] = useState(false);
-  const [currentCheckInId, setCurrentCheckInId] = useState<string | null>(null);
   const [isLoadingStatus, setIsLoadingStatus] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -46,10 +45,9 @@ export function useCheckIn(venueId: string | null | undefined): UseCheckInState 
     setIsLoadingStatus(true);
 
     fetchCheckInStatus(venueId)
-      .then(({ isCheckedIn: checked, checkInId }) => {
+      .then(({ isCheckedIn: checked }) => {
         if (cancelled) return;
         setIsCheckedIn(checked);
-        setCurrentCheckInId(checkInId);
       })
       .catch((err) => {
         if (cancelled) return;
@@ -71,14 +69,12 @@ export function useCheckIn(venueId: string | null | undefined): UseCheckInState 
     setError(null);
 
     try {
-      if (isCheckedIn && currentCheckInId) {
+      if (isCheckedIn) {
         // Development purpose: un-check-in
-        await deleteCheckIn(currentCheckInId);
+        await deleteCheckIn(venueId);
         setIsCheckedIn(false);
-        setCurrentCheckInId(null);
       } else {
-        const newId = await createCheckIn(venueId);
-        setCurrentCheckInId(newId);
+        await createCheckIn(venueId);
         setIsCheckedIn(true);
       }
     } catch (err: any) {
