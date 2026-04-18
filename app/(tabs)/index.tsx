@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Button,
+  Pressable,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -8,13 +8,22 @@ import {
 } from 'react-native';
 
 import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react-native';
+import { PRIMARY, PRIMARY_DARK } from '../../constants/theme';
 
 const SignOutButton = () => {
   const { signOut } = useAuthenticator();
 
   return (
     <View style={styles.signOutButton}>
-      <Button title="Sign Out" onPress={signOut} />
+      <Pressable
+        onPress={signOut}
+        style={({ pressed }) => [
+          styles.button,
+          pressed && styles.buttonPressed,
+        ]}
+      >
+        <Text style={styles.buttonText}>Sign Out</Text>
+      </Pressable>
     </View>
   );
 };
@@ -40,6 +49,22 @@ const styles = StyleSheet.create({
   },
   signOutButton: {
     alignSelf: 'flex-end',
+    marginTop: 8,
+    marginRight: 8,
+  },
+  button: {
+    backgroundColor: PRIMARY,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+  },
+  buttonPressed: {
+    backgroundColor: PRIMARY_DARK,
+  },
+  buttonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   content: {
     flex: 1,

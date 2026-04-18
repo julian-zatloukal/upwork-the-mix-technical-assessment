@@ -13,7 +13,9 @@ import {
   defaultDarkModeOverride,
   useAuthenticator,
 } from '@aws-amplify/ui-react-native';
+import { useEffect, useState } from 'react';
 import outputs from '../amplify_outputs.json';
+import { AuthColors, PRIMARY_SCALE } from '../constants/theme';
 
 Amplify.configure(outputs);
 
@@ -24,19 +26,30 @@ const amplifyDarkTheme = {
       colorMode: 'dark' as const,
       tokens: {
         colors: {
+          // Override the full primary scale — this is what Amplify's buttons,
+          // links, and focus rings actually reference (primary.80 / .90 / .100).
+          primary: {
+            10:  { value: PRIMARY_SCALE[10] },
+            20:  { value: PRIMARY_SCALE[20] },
+            40:  { value: PRIMARY_SCALE[40] },
+            60:  { value: PRIMARY_SCALE[60] },
+            80:  { value: PRIMARY_SCALE[80] },
+            90:  { value: PRIMARY_SCALE[90] },
+            100: { value: PRIMARY_SCALE[100] },
+          },
           background: {
-            primary: { value: '#0a0a0a' },
-            secondary: { value: '#111111' },
-            tertiary: { value: '#1a1a1a' },
+            primary:   { value: AuthColors.bgPrimary },
+            secondary: { value: AuthColors.bgSecondary },
+            tertiary:  { value: AuthColors.bgTertiary },
           },
           font: {
-            primary: { value: '#ffffff' },
-            secondary: { value: '#e0e0e0' },
-            tertiary: { value: '#a0a0a0' },
+            primary:   { value: AuthColors.fontPrimary },
+            secondary: { value: AuthColors.fontSecondary },
+            tertiary:  { value: AuthColors.fontTertiary },
           },
           border: {
-            primary: { value: '#333333' },
-            secondary: { value: '#222222' },
+            primary:   { value: AuthColors.borderPrimary },
+            secondary: { value: AuthColors.borderSecondary },
           },
         },
       },
@@ -66,13 +79,30 @@ const SIGN_IN_ROUTES = new Set([
 
 const GlobalAuthLoadingOverlay = () => {
   const { isPending, route } = useAuthenticator();
-  const visible = isPending && SIGN_IN_ROUTES.has(route);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const shouldShow = isPending && SIGN_IN_ROUTES.has(route);
+    
+    if (shouldShow) {
+      setVisible(true);
+      // SAFETY HATCH: If the Amplify state machine gets stuck (e.g. during Expo 
+      // fast refresh or network hang), auto-hide the overlay after 8 seconds 
+      // so the app doesn't become permanently frozen.
+      const timer = setTimeout(() => {
+        setVisible(false);
+      }, 8000);
+      return () => clearTimeout(timer);
+    } else {
+      setVisible(false);
+    }
+  }, [isPending, route]);
 
   return (
     <Modal transparent animationType="fade" visible={visible}>
       <View style={overlayStyles.backdrop}>
         <View style={overlayStyles.card}>
-          <ActivityIndicator size="large" color="#ffffff" />
+          <ActivityIndicator size="large" color={AuthColors.brand} />
           <Text style={overlayStyles.label}>Signing in…</Text>
         </View>
       </View>
@@ -88,20 +118,22 @@ const overlayStyles = StyleSheet.create({
     justifyContent: 'center',
   },
   card: {
-    backgroundColor: '#1a1a1a',
+    backgroundColor: AuthColors.overlayCard,
     borderRadius: 16,
     paddingVertical: 28,
     paddingHorizontal: 36,
     alignItems: 'center',
     gap: 14,
-    shadowColor: '#000',
+    borderWidth: 1,
+    borderColor: AuthColors.overlayBorder,
+    shadowColor: AuthColors.brand,
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.4,
+    shadowOpacity: 0.35,
     shadowRadius: 12,
     elevation: 10,
   },
   label: {
-    color: '#e0e0e0',
+    color: AuthColors.fontSecondary,
     fontSize: 14,
     fontWeight: '500',
     letterSpacing: 0.3,
